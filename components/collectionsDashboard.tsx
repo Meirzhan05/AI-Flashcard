@@ -43,7 +43,8 @@ export const CollectionsDashboard = () => {
     }
 
 
-    const deleteCollection = async (collectionId: string | null) => {
+    const deleteCollection = async (event: React.MouseEvent<HTMLElement>, collectionId: string | null) => {
+        event.stopPropagation();
         if (collectionId === null || !user) {
             console.error('User is not signed in');
             return;
@@ -117,9 +118,8 @@ export const CollectionsDashboard = () => {
                     overflowY: 'auto',
                 }}>
                     {collections.map((collection: any, index) => (
-                        <Box key={index} 
-                            onClick={() => handleCollectionClick(collection.id)}
-                            sx={{
+                        <Box key={index} onClick={() => handleCollectionClick(collection.id)}>
+                            <Box sx={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
@@ -132,50 +132,48 @@ export const CollectionsDashboard = () => {
                                     transition: '0.5s',
                                     cursor: 'pointer',
                                 },
-                                ':active': { // Add this block
+                                ':active': {
                                     bgcolor: "#818291",
                                     transition: '0.5s',
                                 }
-                        }}>
-                            <Typography sx={{
-                                color: 'white',
-                                fontSize: 17,
-                            }}>{collection.collectionName}</Typography>
-                            <Typography sx={{
-                                color: 'white',
-                                fontSize: 17,
-                            }}>{collection.dateCreated}</Typography>
-                            <IconButton onClick={(event) => {
-                                event.stopPropagation();
-                                handleMenuOpen(event, collection.id);
                             }}>
-                                <MoreHorizIcon sx={{
+                                <Typography sx={{
                                     color: 'white',
-                                    fontSize: 30,
-                                }} />
-                            </IconButton>
-                            <Menu 
-                                anchorEl={menuState.anchorEl}
-                                open={Boolean(menuState.anchorEl)}
-                                onClose={(event) => {
-                                    handleMenuClose();
-                                }}
-                                slotProps={{
-                                    paper: {
-                                        style: {
-                                            backgroundColor: "#383942",
-                                            color: "white",
-                                        }
-                                    }
-                                }}>
-
-                                <MenuItem onClick={(event) => {
+                                    fontSize: 17,
+                                }}>{collection.collectionName}</Typography>
+                                <Typography sx={{
+                                    color: 'white',
+                                    fontSize: 17,
+                                }}>{collection.dateCreated}</Typography>
+                                <IconButton onClick={(event) => {
                                     event.stopPropagation();
-                                    deleteCollection(menuState.collectionId);
+                                    handleMenuOpen(event, collection.id);
                                 }}>
-                                    Delete
-                                </MenuItem>
-                            </Menu>
+                                    <MoreHorizIcon sx={{
+                                        color: 'white',
+                                        fontSize: 30,
+                                    }} />
+                                </IconButton>
+                                <Menu 
+                                    anchorEl={menuState.anchorEl}
+                                    open={Boolean(menuState.anchorEl)}
+                                    onClose={handleMenuClose}
+                                    onClick={(event) => event.stopPropagation()}
+                                    slotProps={{
+                                        paper: {
+                                            style: {
+                                                backgroundColor: "#383942",
+                                                color: "white",
+                                            }
+                                        }
+                                    }}>
+                                    <MenuItem onClick={(event) => deleteCollection(event, menuState.collectionId)}>
+
+                                        Delete
+                                    </MenuItem>
+                                </Menu>
+                            </Box>
+                            
 
                         </Box>
                     ))}

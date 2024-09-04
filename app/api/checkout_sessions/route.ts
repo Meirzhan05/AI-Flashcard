@@ -6,7 +6,7 @@ const formatAmountForStripe = (amount: number, currency: string) => {
 
 console.log(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY)
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY || '', {
-  apiVersion: '2022-11-15',
+  apiVersion: '2024-06-20',
 })
 
 export async function POST(req: Request) {
