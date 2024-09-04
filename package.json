@@ -12,13 +12,19 @@
     "@clerk/nextjs": "^5.3.4",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@mui/material": "^6.0.0",
+    "@mui/icons-material": "^6.0.1",
+    "@mui/material": "^6.0.1",
+    "@stripe/react-stripe-js": "^2.8.0",
+    "@stripe/stripe-js": "^4.4.0",
     "firebase": "^10.13.0",
-    "next": "14.2.7",
+    "groq": "^3.56.0",
+    "groq-sdk": "^0.6.1",
+    "next": "^14.2.7",
     "openai": "^4.56.1",
     "react": "^18",
     "react-dom": "^18",
-    "stripe": "^16.8.0"
+    "react-spring": "^9.7.4",
+    "stripe": "^16.9.0"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -1,6 +1,7 @@
 import { Box, List, ListItem } from "@mui/material";
 import Link from 'next/link';
 
+
 const NavBar = () => {
     const linkStyle = {
         color: 'white', 
@@ -15,37 +16,31 @@ const NavBar = () => {
     };
       
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-around', p: 1, }}>
-      <List sx={{ display: 'flex', flexDirection: 'row'}}>
-        <ListItem>
-          <Link href="/" style={{textDecoration: 'none'}}>
-            <Box sx={linkStyle}>
-                Home
-            </Box>
-          </Link>
-        </ListItem>
-        {/* <ListItem>
-          <Link href="/about" style={{textDecoration: 'none'}}>
-            <Box sx={linkStyle}>
-                About
-            </Box>
-          </Link>
-        </ListItem> */}
-        <ListItem>
-          <Link href="/pricing" style={{textDecoration: 'none'}}>
-            <Box sx={linkStyle}>
-                Pricing
-            </Box>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link href="/contact" style={{textDecoration: 'none'}}>
-            <Box sx={linkStyle}>
-                Contact
-            </Box>
-          </Link>
-        </ListItem>
-      </List>
+    <Box sx={{ display: 'flex', justifyContent: 'space-around', p: 1}}>
+        <List sx={{ display: 'flex', flexDirection: 'row'}}>
+            <ListItem>
+            <Link href="/" style={{textDecoration: 'none'}}>
+                <Box sx={linkStyle}>
+                    Home
+                </Box>
+            </Link>
+            </ListItem>
+            <ListItem>
+            <Link href="/pricing" style={{textDecoration: 'none'}}>
+                <Box sx={linkStyle}>
+                    Pricing
+                </Box>
+            </Link>
+            </ListItem>
+            <ListItem>
+            <Link href="/collections" style={{textDecoration: 'none'}}>
+                <Box sx={linkStyle}>
+                    Collections
+                </Box>
+            </Link>
+            </ListItem>
+        </List>
+
     </Box>
   );
 };

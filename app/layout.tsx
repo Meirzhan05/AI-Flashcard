@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavBar from "@/components/navbar";
-import { ClerkProvider } from "@clerk/nextjs";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
+
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,6 +28,7 @@ export default function RootLayout({
           margin: 0,
           padding: 0,  
         }}>
+          
           <NavBar />
           {children}
 

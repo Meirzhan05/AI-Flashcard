@@ -1,6 +1,15 @@
+'use client'
 import { Box, Button, Typography } from "@mui/material";
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+} from '@clerk/nextjs'
+
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const linkStyle = {
     color: 'black',
     backgroundColor: 'white',
@@ -8,7 +17,11 @@ export default function Home() {
         color: '#737B78',
         cursor: 'pointer'
     }
-};
+  };
+
+  const handleClick = () => {
+    router.push('/collections');
+  }
   return (
     <Box sx={{
       display: 'flex',
@@ -43,12 +56,19 @@ export default function Home() {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-          <Button variant="contained" sx={linkStyle}>
-            Get Started
-          </Button>
-          <Button variant="contained" sx={linkStyle}>
-            Sign In
-          </Button>
+
+          <SignedIn>
+              <Button variant="contained" sx={linkStyle} onClick={handleClick}>
+                    Get Started
+              </Button>
+          </SignedIn>
+          <SignedOut>
+              <SignInButton signUpForceRedirectUrl={'/generate'}>
+                <Button variant="contained" sx={linkStyle}>
+                    Get Started
+                </Button>
+              </SignInButton>
+          </SignedOut>
         </Box>
 
       </Box>
