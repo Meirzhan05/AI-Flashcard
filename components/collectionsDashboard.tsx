@@ -6,10 +6,13 @@ import db from "@/firebase/firebase";
 import { collection, getDocs, deleteDoc, doc} from "firebase/firestore";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 export const CollectionsDashboard = () => {
     const [menuState, setMenuState] = useState<{ anchorEl: HTMLElement | null, collectionId: string | null }>({ anchorEl: null, collectionId: null });
     const [open, setOpen] = useState(false);
     const {user} = useUser();
+    const [pdfAnchorEl, setPdfAnchorEl] = useState<null | HTMLElement>(null);
     const [collections, setCollections] = useState<{ id: string; [key: string]: any }[]>([]);
     const router = useRouter();
     const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>, collectionId: string) => {
@@ -18,6 +21,15 @@ export const CollectionsDashboard = () => {
     const handleMenuClose = () => {
         setMenuState({ anchorEl: null, collectionId: null });
     };
+
+    const handlePdfButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setPdfAnchorEl(event.currentTarget);
+    };
+
+    const handlePdfMenuClose = () => {
+        setPdfAnchorEl(null);
+    }
+
 
     const handleCollectionClick = (collectionID: string) => {
         router.push(`/collections/${collectionID}`)
@@ -99,7 +111,8 @@ export const CollectionsDashboard = () => {
                         Collections
                     </Typography>
 
-                    <Button variant="contained" onClick={newCollectionClick} sx={{ 
+                    <Button variant="contained" onClick={handlePdfButtonClick}
+                     sx={{ 
                         textTransform: "capitalize",
                         bgcolor: "white",
                         color: "#383942",
@@ -109,6 +122,48 @@ export const CollectionsDashboard = () => {
                     }}>
                         create new collection
                     </Button>
+                    <Menu
+                        anchorEl={pdfAnchorEl}
+                        open={Boolean(pdfAnchorEl)}
+                        onClose={handlePdfMenuClose}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                        >
+                        <MenuItem onClick={handlePdfMenuClose} sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1,
+                            fontSize: 14,
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                        }}>
+                            <EventNoteOutlinedIcon sx={{
+                                color: '',
+                                fontSize: 19,
+                            }}/>
+                            Upload from PDF
+                        </MenuItem>
+                        <MenuItem onClick={handlePdfMenuClose} sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1,
+                            fontSize: 14,
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                        }}>
+                            <DescriptionOutlinedIcon sx={{
+                                color: '',
+                                fontSize: 19,
+                            }}/>
+                            Upload from Text
+                        </MenuItem>
+                    </Menu>
                 </Box>
 
                 <Box sx={{
@@ -179,7 +234,7 @@ export const CollectionsDashboard = () => {
                     ))}
                 </Box>
             </Box>
-            <CreateCollectionForm open={open} newCollectionClick={newCollectionClick} setCollections={setCollections} fetchCollections={fetchCollections}/>
+            {/* <CreateCollectionForm open={open} newCollectionClick={newCollectionClick} setCollections={setCollections} fetchCollections={fetchCollections}/> */}
             
         </Box>
     );

@@ -20,7 +20,6 @@ const Flashcards: React.FC<FlashcardProps> = ({ flashcard}: {
     return (
         <Card onClick={handleFlip} sx={{
             bgcolor: "#080808",
-            // width: "100%",
             width: {
                 xs: "100%", // width on extra small screens
                 sm: "90%", // width on small screens
