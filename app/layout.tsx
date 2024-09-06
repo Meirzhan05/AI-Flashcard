@@ -1,3 +1,4 @@
+'use client'
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavBar from "@/components/navbar";
@@ -10,10 +11,6 @@ import {
 } from '@clerk/nextjs'
 
 const inter = Inter({ subsets: ["latin"] });
-export const metadata: Metadata = {
-  title: "FlashAI",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
