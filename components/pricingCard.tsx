@@ -7,9 +7,13 @@ interface PricingCardProps {
     description: string;
     features: string[];
     popular?: boolean;
+    handleSubmit: (price: number) => void;
 }
 
-const PricingCard = ({ title, price, description, features, popular = false }: PricingCardProps) => (
+const PricingCard = ({ handleSubmit, title, price, description, features, popular = false }: PricingCardProps) => {
+  const numericPrice: number = parseFloat(price.replace('$', ''));
+  console.log(numericPrice)
+  return (
     <Card raised={popular} sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#111827', borderRadius: '10px' }}>
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography variant="h5" component="div" gutterBottom>
@@ -36,11 +40,12 @@ const PricingCard = ({ title, price, description, features, popular = false }: P
         </List>
       </CardContent>
       <CardActions sx={{ display: 'flex', justifyContent: 'center'}}>
-        <Button fullWidth variant='contained' sx={{ backgroundColor: 'white', color: 'black', width: '90%'}}>
+        <Button fullWidth onClick={() => handleSubmit(numericPrice)} variant='contained' sx={{ backgroundColor: 'white', color: 'black', width: '90%'}}>
           Start Learning
         </Button>
       </CardActions>
     </Card>
-);
+  );
+}
 
 export default PricingCard;

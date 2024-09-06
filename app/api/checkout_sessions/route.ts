@@ -3,14 +3,16 @@ import Stripe from 'stripe'
 const formatAmountForStripe = (amount: number, currency: string) => {
     return Math.round(amount * 100)
 }
-
-console.log(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY)
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY || '', {
   apiVersion: '2024-06-20',
 })
 
 export async function POST(req: Request) {
   try {
+    const data = await req.json()
+    console.log(data)
+    const price = data.price
+
     const params: Stripe.Checkout.SessionCreateParams = {
         mode: 'subscription',
         payment_method_types: ['card'],
@@ -21,7 +23,7 @@ export async function POST(req: Request) {
               product_data: {
                 name: 'Pro subscription',
               },
-              unit_amount: formatAmountForStripe(10, 'usd'),
+              unit_amount: formatAmountForStripe(price, 'usd'),
               recurring: {
                 interval: 'month',
                 interval_count: 1,

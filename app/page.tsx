@@ -108,7 +108,7 @@ export default function Home() {
             marginBottom: 4,
             textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
           }}>
-            Learn Anything
+            FlashAI
           </Typography>
           <Typography variant="h5" align="center" sx={{ color: 'text.secondary', marginBottom: 6 }}>
             Unlock your potential with AI-powered learning

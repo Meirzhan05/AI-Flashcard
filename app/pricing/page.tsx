@@ -31,10 +31,13 @@ const darkTheme = createTheme({
 
 
 export default function FlashcardPricingPage() {
-      const handleSubmit = async () => {
+      const handleSubmit = async (price: number) => {
         const checkoutSession = await fetch('/api/checkout_sessions', {
           method: 'POST',
           headers: { origin: 'http://localhost:3000' },
+          body: JSON.stringify({
+            price: price,
+          }),
         })
         const checkoutSessionJson = await checkoutSession.json()
       
@@ -42,7 +45,7 @@ export default function FlashcardPricingPage() {
         const {error} = await stripe.redirectToCheckout({
           sessionId: checkoutSessionJson.id,
         })
-      
+
         if (error) {
           console.warn(error.message)
         }
@@ -57,6 +60,7 @@ export default function FlashcardPricingPage() {
           <Grid container spacing={4} sx={{ mt: 4 }}>
             <Grid item xs={12} sm={6} md={4}>
               <PricingCard
+                handleSubmit={handleSubmit}
                 title="Basic"
                 price="$4.99"
                 description="For casual learners"
@@ -70,6 +74,7 @@ export default function FlashcardPricingPage() {
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <PricingCard
+                handleSubmit={handleSubmit}
                 title="Pro"
                 price="$9.99"
                 description="For serious students"
@@ -85,6 +90,7 @@ export default function FlashcardPricingPage() {
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <PricingCard
+                handleSubmit={handleSubmit}
                 title="Team"
                 price="$24.99"
                 description="For educators and study groups"
@@ -105,28 +111,3 @@ export default function FlashcardPricingPage() {
     </ThemeProvider>
   );
 }
-// export default function PricingPage() {
-//     const handleSubmit = async () => {
-//         const checkoutSession = await fetch('/api/checkout_sessions', {
-//           method: 'POST',
-//           headers: { origin: 'http://localhost:3000' },
-//         })
-//         const checkoutSessionJson = await checkoutSession.json()
-      
-//         const stripe = await getStripe()
-//         const {error} = await stripe.redirectToCheckout({
-//           sessionId: checkoutSessionJson.id,
-//         })
-      
-//         if (error) {
-//           console.warn(error.message)
-//         }
-//     }
-    
-//     return (
-//         <Box sx={{my: 6, textAlign: 'center'}}>
-//             <Button variant="contained" onClick={handleSubmit}>Pricing</Button>
-
-//         </Box>
-//     )
-// }
