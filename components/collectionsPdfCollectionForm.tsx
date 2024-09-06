@@ -1,20 +1,25 @@
 'use client'
-import { Box, Dialog, TextField, Button, Typography } from "@mui/material"
+import { Box, Dialog, TextField, Button, IconButton, Typography } from "@mui/material"
 import db from "@/firebase/firebase";
 import { setDoc, doc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
-interface CreateCollectionFormProps {
+import UploadIcon from '@mui/icons-material/Upload';
+import CloseIcon from '@mui/icons-material/Close';
+
+interface CreatePdfCollectionFormProps {
     open: boolean;
     handlePdfFormOpen: () => void;
     fetchCollections: () => Promise<{ id: string; [key: string]: any }[]>;
     setCollections: (collections: { id: string; [key: string]: any }[]) => void;
 }
 
-const CreateCollectionForm: React.FC<CreateCollectionFormProps> = ({open, handlePdfFormOpen, fetchCollections, setCollections}) => {
+const CreatePdfCollectionForm: React.FC<CreatePdfCollectionFormProps> = ({open, handlePdfFormOpen, fetchCollections, setCollections}) => {
     const [collectionName, setCollectionName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const {user} = useUser();
+    const [file, setFile] = useState<File | null>(null);
+
     const inputStyles = {
         width: '100%',
         color: 'white',
@@ -44,9 +49,18 @@ const CreateCollectionForm: React.FC<CreateCollectionFormProps> = ({open, handle
         },
     }
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+          setFile(event.target.files[0]);
+        }
+    };
+    const handleRemoveFile = () => {
+        setFile(null);
+    };
+
+
     const saveCollection = async () => {
         if (!description || !collectionName || !user) {
-            // Handle the case where the user is not signed in
             console.error('User is not signed in');
             return;
         }
@@ -112,7 +126,46 @@ const CreateCollectionForm: React.FC<CreateCollectionFormProps> = ({open, handle
                     }}>
 
                         <TextField label="Name" variant="outlined" required onChange={(e) => setCollectionName(e.target.value)} sx={inputStyles}/>
-                        <TextField label="Flashcards Description" required rows={4} multiline onChange={(e) => setDescription(e.target.value)} variant="outlined" sx={inputStyles}/>
+                        <Button
+                            component="label"
+                            variant="outlined"
+                            startIcon={<UploadIcon />}
+                            sx={{
+                                color: 'white',
+                                borderColor: 'white',
+                                '&:hover': {
+                                backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                                },
+                                padding: '10px 20px',
+                                borderRadius: '4px',
+                                textTransform: 'none',
+                            }}
+                            >
+                            Select File
+                            <input
+                                type="file"
+                                hidden
+                                onChange={handleFileChange}
+                                accept=".pdf"
+                            />
+                            </Button>
+
+
+                            {file && (
+                                <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                                <Typography variant="body2" color="white" sx={{ mr: 1 }}>
+                                    {file.name}
+                                </Typography>
+                                <IconButton 
+                                    onClick={handleRemoveFile}
+                                    size="small"
+                                    sx={{ color: 'white' }}
+                                >
+                                    <CloseIcon fontSize="small" />
+                                </IconButton>
+                                </Box>
+                            )}
+                        
                         <Box
                             sx={{
                                 display: 'flex',
@@ -148,10 +201,9 @@ const CreateCollectionForm: React.FC<CreateCollectionFormProps> = ({open, handle
                         </Box>
                     </Box>
                 </Box>
-
             </Dialog>
         </Box>
     )
 }
 
-export default CreateCollectionForm;
+export default CreatePdfCollectionForm;

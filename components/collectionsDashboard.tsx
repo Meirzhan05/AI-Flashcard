@@ -2,6 +2,7 @@ import { Box, Button, Icon, IconButton, Menu, Typography, MenuItem } from "@mui/
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useEffect, useState } from "react";
 import CreateCollectionForm from "./createCollectionForm";
+import CreatePdfCollectionForm from "./collectionsPdfCollectionForm";
 import db from "@/firebase/firebase";
 import { collection, getDocs, deleteDoc, doc} from "firebase/firestore";
 import { useUser } from "@clerk/nextjs";
@@ -10,7 +11,8 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 export const CollectionsDashboard = () => {
     const [menuState, setMenuState] = useState<{ anchorEl: HTMLElement | null, collectionId: string | null }>({ anchorEl: null, collectionId: null });
-    const [open, setOpen] = useState(false);
+    const [openTextForm, setOpenTextForm] = useState(false);
+    const [openPdfForm, setOpenPdfForm] = useState(false);
     const {user} = useUser();
     const [pdfAnchorEl, setPdfAnchorEl] = useState<null | HTMLElement>(null);
     const [collections, setCollections] = useState<{ id: string; [key: string]: any }[]>([]);
@@ -34,10 +36,19 @@ export const CollectionsDashboard = () => {
     const handleCollectionClick = (collectionID: string) => {
         router.push(`/collections/${collectionID}`)
     }
+    
+    // Add these handler functions
+    const handleTextFormOpen = () => {
+        setOpenTextForm(!openTextForm);
+        console.log("text form open")
+        handlePdfMenuClose();
+    };
+    
+    const handlePdfFormOpen = () => {
+        setOpenPdfForm(!openPdfForm);
+        handlePdfMenuClose();
+    };
 
-    const newCollectionClick = () => {
-        setOpen(!open);
-    }
     const fetchCollections = async () => {
         if (!user) {
             console.error('User is not signed in');
@@ -135,7 +146,7 @@ export const CollectionsDashboard = () => {
                             horizontal: 'center',
                         }}
                         >
-                        <MenuItem onClick={handlePdfMenuClose} sx={{
+                        <MenuItem onClick={handlePdfFormOpen} sx={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: 1,
@@ -149,7 +160,7 @@ export const CollectionsDashboard = () => {
                             }}/>
                             Upload from PDF
                         </MenuItem>
-                        <MenuItem onClick={handlePdfMenuClose} sx={{
+                        <MenuItem onClick={handleTextFormOpen} sx={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: 1,
@@ -228,14 +239,12 @@ export const CollectionsDashboard = () => {
                                     </MenuItem>
                                 </Menu>
                             </Box>
-                            
-
                         </Box>
                     ))}
                 </Box>
             </Box>
-            {/* <CreateCollectionForm open={open} newCollectionClick={newCollectionClick} setCollections={setCollections} fetchCollections={fetchCollections}/> */}
-            
+            {openTextForm && <CreateCollectionForm open={openTextForm} handlePdfFormOpen={handleTextFormOpen} setCollections={setCollections} fetchCollections={fetchCollections}/>}
+            {openPdfForm && <CreatePdfCollectionForm open={openPdfForm} handlePdfFormOpen={handlePdfFormOpen} setCollections={setCollections} fetchCollections={fetchCollections}/>}
         </Box>
     );
 }
