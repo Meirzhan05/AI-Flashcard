@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { NextRequest, NextResponse } from 'next/server'
+
 const formatAmountForStripe = (amount: number, currency: string) => {
     return Math.round(amount * 100)
 }
@@ -49,7 +50,7 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const session_id = searchParams.get('session_id')
   
