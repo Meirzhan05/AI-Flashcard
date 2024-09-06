@@ -31,25 +31,46 @@ const darkTheme = createTheme({
 
 
 export default function FlashcardPricingPage() {
-      const handleSubmit = async (price: number) => {
-        const checkoutSession = await fetch('/api/checkout_sessions', {
-          method: 'POST',
-          headers: { origin: 'http://localhost:3000' },
-          body: JSON.stringify({
-            price: price,
-          }),
-        })
-        const checkoutSessionJson = await checkoutSession.json()
-      
-        const stripe = await getStripe()
-        const {error} = await stripe.redirectToCheckout({
-          sessionId: checkoutSessionJson.id,
-        })
+  const handleSubmit = async (price: number) => {
+    try {
+      const checkoutSession = await fetch('/api/checkout_sessions', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Origin': 'http://localhost:3000' 
+        },
+        body: JSON.stringify({
+          price: price,
+        }),
+      });
 
-        if (error) {
-          console.warn(error.message)
-        }
+      if (!checkoutSession.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const checkoutSessionJson = await checkoutSession.json();
+      
+      if (!checkoutSessionJson.id) {
+        throw new Error('Invalid checkout session response');
+      }
+
+      const stripe = await getStripe();
+      if (!stripe) {
+        throw new Error('Stripe failed to initialize');
+      }
+
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: checkoutSessionJson.id,
+      });
+
+      if (error) {
+        console.error('Stripe redirect error:', error);
+        throw error;
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
     }
+  };
   return (
     <ThemeProvider theme={darkTheme}>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 8 }}>
