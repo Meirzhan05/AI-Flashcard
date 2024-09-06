@@ -60,23 +60,27 @@ const CreatePdfCollectionForm: React.FC<CreatePdfCollectionFormProps> = ({open, 
 
 
     const saveCollection = async () => {
-        if (!description || !collectionName || !user) {
+        if (!collectionName || !user) {
             console.error('User is not signed in');
             return;
         }
         try {
-            const response: Response = await fetch('/api/generateFlashcards', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({description}),  
-            });
-            if (response !== undefined && !response.ok) {
-                throw new Error('Failed to generate flashcards')
+            const formData = new FormData();
+            if (file) {
+                formData.append('file', file);
             }
+            formData.append('collectionName', collectionName);
+            formData.append('description', description);
 
-            const data = await response.json();
+
+            const uploadResponse: Response = await fetch('/api/generatePdfFlashcards', {
+                method: 'POST',
+                body: formData,  
+            });
+
+            const data = await uploadResponse.json();
+            console.log(data);
+
             const userCollectionsRef = collection(db, 'users', user.id, 'collections');
             const newDocRef = doc(userCollectionsRef);
             await setDoc(newDocRef, {

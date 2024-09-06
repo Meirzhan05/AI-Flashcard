@@ -46,7 +46,6 @@ const CreateCollectionForm: React.FC<CreateCollectionFormProps> = ({open, handle
 
     const saveCollection = async () => {
         if (!description || !collectionName || !user) {
-            // Handle the case where the user is not signed in
             console.error('User is not signed in');
             return;
         }
