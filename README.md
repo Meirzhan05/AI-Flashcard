@@ -1,14 +1,6 @@
 # FlashAI: AI-Powered Flashcard Learning
 
 <p align="center">
-  <img src="path_to_your_logo.png" alt="FlashAI Logo" width="200"/>
-</p>
-
-<p align="center">
-  <strong>Unlock your potential with AI-powered learning</strong>
-</p>
-
-<p align="center">
   <a href="#live-demo">Live Demo</a> •
   <a href="#key-features">Key Features</a> •
   <a href="#getting-started">Getting Started</a> •
