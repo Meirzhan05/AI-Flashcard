@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# FlashAI: AI-Powered Flashcard Learning
+
+<p align="center">
+  <img src="path_to_your_logo.png" alt="FlashAI Logo" width="200"/>
+</p>
+
+<p align="center">
+  <strong>Unlock your potential with AI-powered learning</strong>
+</p>
+
+<p align="center">
+  <a href="#live-demo">Live Demo</a> •
+  <a href="#key-features">Key Features</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#how-it-works">How It Works</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#contributing">Contributing</a> •
+  <a href="#license">License</a>
+</p>
+
+---
+
+## Live Demo
+
+Experience FlashAI in action! Visit our live demo at [https://flashai-mauve.vercel.app/](https://flashai-mauve.vercel.app/)
+
+
+## Key Features
+
+- 🧠 **AI-Powered Learning**: Harness the power of artificial intelligence to create personalized learning experiences.
+- 🚀 **Accelerated Progress**: Learn faster and more efficiently with adaptive learning algorithms.
+- 📚 **PDF to Flashcards**: Automatically generate flashcards from uploaded PDF documents.
+- 💾 **Efficient Storage**: Utilize Pinecone vector database for handling large volumes of data.
+- 🔒 **Secure Authentication**: Implement user authentication and protected routes with Clerk.
+- 💳 **Flexible Pricing**: Seamless subscription management with Stripe integration.
+- 📱 **Responsive Design**: Enjoy a consistent experience across all devices.
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/flashai.git
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. Install dependencies:
+   ```
+   cd flashai
+   npm install
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Set up environment variables:
+   Create a `.env.local` file in the root directory and add the following:
+   ```
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+   CLERK_SECRET_KEY=your_clerk_secret_key
+   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+   NEXT_PUBLIC_GROQ_API=your_groq_api_key
+   NEXT_PUBLIC_PINECONE_API_KEY=your_pinecone_api_key
+   NEXT_PUBLIC_PINECONE_ENVIRONMENT=your_pinecone_environment
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+   STRIPE_SECRET_KEY=your_stripe_secret_key
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. Run the development server:
+   ```
+   npm run dev
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## How It Works
 
-To learn more about Next.js, take a look at the following resources:
+1. **PDF Upload**: Users upload PDF documents containing study material.
+2. **Text Extraction**: The system extracts text from the PDF using pdf-parse.
+3. **Vector Embedding**: Text chunks are converted into vector embeddings.
+4. **Semantic Search**: Pinecone vector database is used for efficient storage and retrieval of relevant information.
+5. **Flashcard Generation**: AI models generate concise and effective flashcards from the extracted information.
+6. **Interactive Learning**: Users engage with the generated flashcards through an intuitive interface.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **Frontend**: Next.js, React, Material-UI
+- **Backend**: Node.js, Next.js API Routes
+- **Database**: Pinecone (Vector Database), Firebase Firestore
+- **Authentication**: Clerk
+- **AI/ML**: Groq, OpenAI
+- **Payment Processing**: Stripe
+- **PDF Processing**: pdf-parse
+- **Styling**: Emotion, Framer Motion
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<p align="center">
+  Made with ❤️ by Meirzhan
+</p>
