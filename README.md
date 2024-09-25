@@ -31,7 +31,7 @@ Experience FlashAI in action! Visit our live demo at [https://flashai-mauve.verc
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/flashai.git
+   git clone https://github.com/Meirzhan05/flashai.git
    ```
 
 2. Install dependencies:
